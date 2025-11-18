@@ -1,0 +1,29 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" fill="#0d0a1d"/>
+  
+  <!-- Neon glow effect -->
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Vinyl record -->
+  <circle cx="256" cy="256" r="160" fill="none" stroke="#00f2ea" stroke-width="8" filter="url(#glow)"/>
+  <circle cx="256" cy="256" r="120" fill="none" stroke="#00f2ea" stroke-width="4" filter="url(#glow)"/>
+  <circle cx="256" cy="256" r="80" fill="none" stroke="#00f2ea" stroke-width="2" filter="url(#glow)"/>
+  <circle cx="256" cy="256" r="40" fill="#00f2ea" filter="url(#glow)"/>
+  
+  <!-- Waveform -->
+  <path d="M 150 350 L 170 320 L 190 360 L 210 310 L 230 370 L 250 300 L 270 380 L 290 290 L 310 390 L 330 310 L 350 360 L 362 340" 
+        stroke="#d15fff" stroke-width="3" fill="none" stroke-linecap="round" filter="url(#glow)"/>
+  
+  <!-- Text -->
+  <text x="256" y="450" font-family="Arial, sans-serif" font-size="48" font-weight="bold" 
+        fill="#00f2ea" text-anchor="middle" filter="url(#glow)">SF</text>
+</svg>
