@@ -1,4 +1,4 @@
-# Solución al Error 403 de Spotify Audio Features
+# Error 403 de Spotify Audio Features - Análisis Final
 
 ## 🔍 Diagnóstico del Problema
 
@@ -7,30 +7,36 @@
 GET https://api.spotify.com/v1/audio-features/{id} 403 (Forbidden)
 ```
 
-### ❌ Diagnóstico Incorrecto Inicial
-Pensamos que necesitábamos **Extended Quota Mode** porque estábamos en Development Mode.
+### ❌ Diagnóstico Incorrecto #1
+Pensamos que los scopes innecesarios causaban el problema.
 
-### ✅ Diagnóstico Correcto
-El problema era que estábamos solicitando **scopes innecesarios** en la autenticación OAuth.
+### ✅ Diagnóstico CORRECTO
+**SÍ necesitamos Extended Quota Mode.** Audio Features tiene acceso restringido en Development Mode.
 
 ## 📚 Según la Documentación Oficial de Spotify
+
+### Development Mode Limitations
+
+Según [Quota Modes Documentation](https://developer.spotify.com/documentation/web-api/concepts/quota-modes):
+
+> **Development mode** is the default mode for all apps. In this mode:
+> - Your app can only be used by up to **25 Spotify users**
+> - Some endpoints have **rate limits** or **restricted access**
 
 ### Audio Features Endpoint
 - **URL:** `GET /v1/audio-features/{id}`
 - **Autenticación:** Requerida
-- **Scopes requeridos:** **NINGUNO**
-- **Disponible en Development Mode:** ✅ SÍ
-- **Requiere Extended Quota:** ❌ NO
+- **Scopes requeridos:** NINGUNO
+- **Disponible en Development Mode:** ⚠️ **CON RESTRICCIONES**
+- **Requiere Extended Quota:** ✅ **SÍ** (para acceso completo)
 
-Fuente: https://developer.spotify.com/documentation/web-api/reference/get-audio-features
+**Restricción:** Audio Features tiene acceso limitado en Development Mode.
 
 ### Search Endpoint
 - **URL:** `GET /v1/search`
 - **Autenticación:** Requerida
-- **Scopes requeridos:** **NINGUNO**
-- **Disponible en Development Mode:** ✅ SÍ
-
-Fuente: https://developer.spotify.com/documentation/web-api/reference/search
+- **Scopes requeridos:** NINGUNO
+- **Disponible en Development Mode:** ✅ SÍ (sin restricciones)
 
 ## 🐛 El Bug en Nuestro Código
 
@@ -96,19 +102,33 @@ El endpoint de Audio Features debería funcionar ahora sin errores 403.
 - ✅ `/v1/tracks/{id}` - Obtener info de un track
 - ✅ `/v1/artists/{id}` - Obtener info de un artista
 
-## 🎯 Conclusión
+## 🎯 Conclusión FINAL
 
-**NO necesitamos Extended Quota Mode.**
+**SÍ NECESITAMOS Extended Quota Mode.**
 
-El error 403 era causado por solicitar scopes innecesarios que pueden tener restricciones adicionales en Development Mode. Al remover los scopes y usar solo autenticación básica, los endpoints públicos deberían funcionar correctamente.
+Después de investigar a fondo y probar el fix de scopes, confirmamos que:
+
+1. ✅ **Search API funciona** en Development Mode (sin restricciones)
+2. ❌ **Audio Features está restringido** en Development Mode
+3. ✅ **Extended Quota Mode es necesario** para acceso completo a Audio Features
+
+### Por qué el fix de scopes no funcionó
+
+Aunque remover scopes innecesarios es una buena práctica, **no resuelve el problema de quota**. El error 403 persiste porque Audio Features tiene restricciones específicas en Development Mode que solo se levantan con Extended Quota.
+
+## 🚀 Próximos Pasos
+
+1. **Solicitar Extended Quota Mode** siguiendo la guía en `SPOTIFY_EXTENDED_QUOTA.md`
+2. Mientras esperas aprobación, implementar **scraping de 1001Tracklists/Set79** como backup
+3. Considerar **edición manual** de BPM/Key como alternativa
 
 ## 🔗 Referencias
 
 - [Spotify Web API Reference](https://developer.spotify.com/documentation/web-api/reference)
 - [Audio Features Endpoint](https://developer.spotify.com/documentation/web-api/reference/get-audio-features)
-- [Authorization Scopes](https://developer.spotify.com/documentation/web-api/concepts/scopes)
-- [Quota Modes](https://developer.spotify.com/documentation/web-api/concepts/quota-modes)
+- [Quota Modes](https://developer.spotify.com/documentation/web-api/concepts/quota-modes) ⭐ **Clave**
+- [Request Extension](https://developer.spotify.com/documentation/web-api/concepts/quota-modes#extended-quota-mode)
 
-## ⚠️ Nota Importante
+## 📝 Lección Aprendida
 
-Si después de aplicar este fix el error 403 persiste, entonces SÍ podría ser un problema de quota. Pero según la documentación oficial, Audio Features debería funcionar en Development Mode sin restricciones.
+No todos los endpoints públicos de Spotify están disponibles sin restricciones en Development Mode. Siempre verificar la sección de Quota Modes en la documentación antes de asumir que un endpoint funcionará.

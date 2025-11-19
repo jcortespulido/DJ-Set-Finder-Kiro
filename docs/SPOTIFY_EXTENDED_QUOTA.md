@@ -2,7 +2,17 @@
 
 ## 🎯 Objetivo
 
-Obtener acceso al endpoint `/audio-features` de Spotify API que actualmente retorna 403 Forbidden debido a las limitaciones de Development Mode.
+Obtener acceso completo al endpoint `/audio-features` de Spotify API que actualmente retorna 403 Forbidden debido a las **restricciones de Development Mode**.
+
+### ¿Por qué necesitamos esto?
+
+Según la [documentación oficial de Spotify](https://developer.spotify.com/documentation/web-api/concepts/quota-modes), en **Development Mode**:
+- ✅ Search API funciona sin restricciones
+- ❌ **Audio Features tiene acceso restringido**
+- ⚠️ Límite de 25 usuarios
+- ⚠️ Rate limits más estrictos
+
+**Extended Quota Mode** levanta estas restricciones y permite acceso completo a todos los endpoints.
 
 ## 📋 Pasos para Solicitar
 

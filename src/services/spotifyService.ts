@@ -65,17 +65,22 @@ const SPOTIFY_TOKEN_KEY = 'spotify_token_data';
 /**
  * Genera el URL de autorización de Spotify
  * 
- * NOTA: Audio Features NO requiere scopes específicos, solo autenticación.
- * Removemos scopes innecesarios que pueden causar restricciones.
+ * NOTA: Audio Features está restringido en Development Mode.
+ * Requiere Extended Quota Mode para funcionar sin restricciones.
  */
 export function getSpotifyAuthUrl(): string {
-  // Audio Features y Search NO requieren scopes específicos
-  // Solo necesitamos autenticación básica
+  // Scopes mínimos para autenticación
+  // Audio Features NO requiere scopes pero SÍ requiere Extended Quota Mode
+  const scopes = [
+    'user-read-private',
+    'user-read-email',
+  ];
+  
   const params = new URLSearchParams({
     client_id: SPOTIFY_CLIENT_ID,
     response_type: 'code',
     redirect_uri: SPOTIFY_REDIRECT_URI,
-    // No incluimos scope para usar solo endpoints públicos
+    scope: scopes.join(' '),
     show_dialog: 'true',
   });
   
