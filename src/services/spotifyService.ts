@@ -64,18 +64,18 @@ const SPOTIFY_TOKEN_KEY = 'spotify_token_data';
 
 /**
  * Genera el URL de autorización de Spotify
+ * 
+ * NOTA: Audio Features NO requiere scopes específicos, solo autenticación.
+ * Removemos scopes innecesarios que pueden causar restricciones.
  */
 export function getSpotifyAuthUrl(): string {
-  const scopes = [
-    'user-read-private',
-    'user-read-email',
-  ];
-  
+  // Audio Features y Search NO requieren scopes específicos
+  // Solo necesitamos autenticación básica
   const params = new URLSearchParams({
     client_id: SPOTIFY_CLIENT_ID,
     response_type: 'code',
     redirect_uri: SPOTIFY_REDIRECT_URI,
-    scope: scopes.join(' '),
+    // No incluimos scope para usar solo endpoints públicos
     show_dialog: 'true',
   });
   
