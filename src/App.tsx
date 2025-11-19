@@ -1,114 +1,121 @@
-import { useState } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { AuthModal } from './components/AuthModal'
+import { GlobalStyles } from './components/GlobalStyles'
+import { GlobalHeader } from './components/GlobalHeader'
+import { ErrorBoundary } from './components/ErrorBoundary'
+import { OfflineBanner } from './components/OfflineBanner'
+import { InstallPrompt } from './components/InstallPrompt'
+import { LoadingSpinner } from './components/LoadingSpinner'
+import { HomeView } from './views/HomeView'
+import { ExploreView } from './views/ExploreView'
+import { useOfflineSync } from './hooks/useOfflineSync'
+import { clearOldCache } from './services/offlineStorage'
+
+// Lazy load heavy components
+const DetailView = lazy(() => import('./views/DetailView').then(m => ({ default: m.DetailView })))
+const FavoritesView = lazy(() => import('./views/FavoritesView').then(m => ({ default: m.FavoritesView })))
+const AdminView = lazy(() => import('./views/AdminView').then(m => ({ default: m.AdminView })))
+
+type Tab = 'home' | 'explore' | 'favorites' | 'admin';
 
 function AppContent() {
   const [showAuthModal, setShowAuthModal] = useState(false)
-  const { user, isLoading, logout } = useAuth()
+  const [activeTab, setActiveTab] = useState<Tab>('home')
+  const [selectedSetId, setSelectedSetId] = useState<string | null>(null)
+  const { isLoading } = useAuth()
+
+  // Sync offline favorites when connection is restored
+  useOfflineSync()
+
+  // Handle Spotify callback
+  useEffect(() => {
+    const handleSpotifyCallback = async () => {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get('code');
+      
+      if (code) {
+        // Import dynamically to avoid circular dependencies
+        const { exchangeCodeForToken } = await import('./services/spotifyService');
+        try {
+          await exchangeCodeForToken(code);
+          // Clean URL and reload
+          window.history.replaceState({}, document.title, window.location.pathname);
+          window.location.reload();
+        } catch (error) {
+          console.error('Error processing Spotify callback:', error);
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      }
+    };
+    
+    handleSpotifyCallback();
+  }, [])
+
+  const handleSelectSet = (setId: string) => {
+    setSelectedSetId(setId)
+  }
+
+  const handleBackToList = () => {
+    setSelectedSetId(null)
+  }
+
+  // Clear old cache on mount
+  useEffect(() => {
+    clearOldCache().catch(console.error)
+  }, [])
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#0d0a1d] flex items-center justify-center">
-        <div className="text-cyan-400 text-xl">Cargando...</div>
+        <LoadingSpinner size="lg" />
       </div>
     )
   }
 
   return (
     <div className="min-h-screen bg-[#0d0a1d]">
-      <div className="container mx-auto px-4 py-20">
-        <h1 className="text-4xl font-bold text-cyan-400 text-center">
-          SET FINDER
-        </h1>
-        <p className="text-gray-400 text-center mt-4">
-          Aplicación en construcción...
-        </p>
-        <p className="text-gray-500 text-center mt-2 text-sm">
-          ✅ Sistema de autenticación implementado
-        </p>
-
-        {/* Panel de prueba de autenticación */}
-        <div className="mt-12 max-w-md mx-auto bg-[#1a1a2e] border border-cyan-500/30 rounded-lg p-6">
-          <h2 className="text-xl font-bold text-white mb-4">
-            Estado de Autenticación
-          </h2>
-
-          {user ? (
-            <div className="space-y-4">
-              <div className="bg-green-500/10 border border-green-500/30 rounded p-4">
-                <p className="text-green-400 font-semibold mb-2">
-                  ✅ Usuario autenticado
-                </p>
-                <div className="text-sm text-gray-300 space-y-1">
-                  <p>
-                    <span className="text-gray-500">Email:</span> {user.email}
-                  </p>
-                  <p>
-                    <span className="text-gray-500">Nombre:</span> {user.name}
-                  </p>
-                  <p>
-                    <span className="text-gray-500">Rol:</span> {user.role}
-                  </p>
-                  <p>
-                    <span className="text-gray-500">ID:</span>{' '}
-                    {user.id.substring(0, 8)}...
-                  </p>
-                </div>
-              </div>
-
-              <button
-                onClick={logout}
-                className="w-full py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded transition-colors"
-              >
-                Cerrar Sesión
-              </button>
-            </div>
+      <GlobalHeader
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        onLoginClick={() => setShowAuthModal(true)}
+      />
+      <OfflineBanner />
+      
+      <div className="container mx-auto px-4 pt-24 pb-8">
+        {/* Show detail view if a set is selected */}
+        <Suspense fallback={<div className="flex justify-center py-20"><LoadingSpinner size="lg" /></div>}>
+          {selectedSetId ? (
+            <DetailView setId={selectedSetId} onBack={handleBackToList} />
           ) : (
-            <div className="space-y-4">
-              <div className="bg-yellow-500/10 border border-yellow-500/30 rounded p-4">
-                <p className="text-yellow-400 font-semibold">
-                  ⚠️ No hay usuario autenticado
-                </p>
-              </div>
-
-              <button
-                onClick={() => setShowAuthModal(true)}
-                className="w-full py-2 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded transition-colors"
-              >
-                Iniciar Sesión / Registrarse
-              </button>
-            </div>
+            <>
+              {/* Render different views based on active tab */}
+              {activeTab === 'home' && <HomeView onSelectSet={handleSelectSet} />}
+              {activeTab === 'explore' && <ExploreView onSelectSet={handleSelectSet} />}
+              {activeTab === 'favorites' && <FavoritesView onSelectSet={handleSelectSet} />}
+              {activeTab === 'admin' && <AdminView />}
+            </>
           )}
-        </div>
-
-        {/* Instrucciones */}
-        <div className="mt-8 max-w-2xl mx-auto text-gray-400 text-sm space-y-2">
-          <p className="text-center font-semibold text-cyan-400">
-            📝 Instrucciones para probar:
-          </p>
-          <ol className="list-decimal list-inside space-y-1 text-left">
-            <li>Haz clic en "Iniciar Sesión / Registrarse"</li>
-            <li>Ve a la pestaña "Registro"</li>
-            <li>Crea una cuenta con email y contraseña (mínimo 8 caracteres)</li>
-            <li>Verifica en Firebase Console que el usuario se creó</li>
-            <li>Prueba cerrar sesión y volver a iniciar sesión</li>
-          </ol>
-        </div>
+        </Suspense>
       </div>
 
       <AuthModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
       />
+      <InstallPrompt />
     </div>
   )
 }
 
 function App() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <GlobalStyles />
+        <AppContent />
+      </AuthProvider>
+    </ErrorBoundary>
   )
 }
 

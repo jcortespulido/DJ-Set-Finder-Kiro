@@ -5,6 +5,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from 'firebase/auth';
 import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '../services/firebase.config';
@@ -34,8 +36,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
+        console.log('Usuario detectado:', firebaseUser.email);
         await loadUserData(firebaseUser);
       } else {
+        console.log('No hay usuario autenticado');
         setUser(null);
         setToken(null);
         setIsAdmin(false);
@@ -49,14 +53,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
   // Cargar datos del usuario desde Firestore
   const loadUserData = async (firebaseUser: FirebaseUser) => {
     try {
+      console.log('Cargando datos del usuario:', firebaseUser.uid);
       const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
       
       if (userDoc.exists()) {
+        console.log('Documento de usuario encontrado');
         const userData = userDoc.data();
         const userToken = await firebaseUser.getIdToken();
-        const tokenResult = await firebaseUser.getIdTokenResult();
         
-        setUser({
+        const loadedUser = {
           id: firebaseUser.uid,
           email: firebaseUser.email!,
           name: userData.name,
@@ -64,10 +69,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
           favorites: userData.favorites || [],
           createdAt: userData.createdAt,
           updatedAt: userData.updatedAt,
-        });
+        };
         
+        console.log('Usuario cargado:', loadedUser);
+        setUser(loadedUser);
         setToken(userToken);
-        setIsAdmin(tokenResult.claims.admin === true);
+        // Verificar si es admin desde el rol de Firestore
+        setIsAdmin(userData.role === 'admin');
+      } else {
+        console.error('Documento de usuario NO encontrado en Firestore');
       }
     } catch (error) {
       console.error('Error cargando datos del usuario:', error);
@@ -119,6 +129,52 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
+  // Iniciar sesión con Google
+  const loginWithGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({
+        prompt: 'select_account'
+      });
+      
+      // Usar popup
+      const result = await signInWithPopup(auth, provider);
+      
+      // Verificar si el usuario ya existe en Firestore
+      const userDoc = await getDoc(doc(db, 'users', result.user.uid));
+      
+      if (!userDoc.exists()) {
+        console.log('Creando nuevo usuario de Google en Firestore...');
+        // Si es un usuario nuevo, crear documento en Firestore
+        await setDoc(doc(db, 'users', result.user.uid), {
+          email: result.user.email,
+          name: result.user.displayName || 'Usuario de Google',
+          role: 'user',
+          favorites: [],
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        });
+        console.log('Usuario de Google creado en Firestore');
+      }
+      
+      // El onAuthStateChanged se encargará de cargar los datos
+    } catch (error: any) {
+      console.error('Error en login con Google:', error);
+      
+      // Manejar errores específicos
+      if (error.code === 'auth/popup-blocked') {
+        throw new Error('El popup fue bloqueado. Por favor, permite popups para este sitio.');
+      } else if (error.code === 'auth/popup-closed-by-user') {
+        throw new Error('Cerraste el popup antes de completar el login.');
+      } else if (error.code === 'auth/cancelled-popup-request') {
+        // Usuario abrió múltiples popups, ignorar este error
+        return;
+      }
+      
+      throw new Error(getAuthErrorMessage(error.code));
+    }
+  };
+
   // Cerrar sesión
   const logout = () => {
     signOut(auth);
@@ -135,15 +191,24 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
+  // Refrescar datos del usuario
+  const refreshUser = async () => {
+    if (auth.currentUser) {
+      await loadUserData(auth.currentUser);
+    }
+  };
+
   const value: AuthContextValue = {
     user,
     token,
     isAdmin,
     isLoading,
     login,
+    loginWithGoogle,
     register,
     logout,
     refreshToken,
+    refreshUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

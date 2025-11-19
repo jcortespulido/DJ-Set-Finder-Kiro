@@ -1,0 +1,11 @@
+export { HomeIcon } from './HomeIcon';
+export { LayoutGridIcon } from './LayoutGridIcon';
+export { SearchIcon } from './SearchIcon';
+export { HeartIcon } from './HeartIcon';
+export { SpotifyIcon } from './SpotifyIcon';
+export { SoundCloudIcon } from './SoundCloudIcon';
+export { YoutubeIcon } from './YoutubeIcon';
+export { UserIcon } from './UserIcon';
+export { LogoutIcon } from './LogoutIcon';
+export { SettingsIcon } from './SettingsIcon';
+export { XIcon } from './XIcon';

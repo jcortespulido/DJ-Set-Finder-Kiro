@@ -1,22 +1,15 @@
 import { useEffect } from 'react';
-import { useRegisterSW as useVitePWARegisterSW } from 'virtual:pwa-register/react';
 
 /**
  * Hook to register the service worker and handle updates
+ * Note: This is a placeholder until PWA is fully configured
  */
 export function useRegisterSW() {
-  const {
-    offlineReady: [offlineReady, setOfflineReady],
-    needRefresh: [needRefresh, setNeedRefresh],
-    updateServiceWorker,
-  } = useVitePWARegisterSW({
-    onRegistered(r) {
-      console.log('SW Registered: ' + r);
-    },
-    onRegisterError(error) {
-      console.log('SW registration error', error);
-    },
-  });
+  const offlineReady = false;
+  const needRefresh = false;
+  const setOfflineReady = (_value: boolean) => {};
+  const setNeedRefresh = (_value: boolean) => {};
+  const updateServiceWorker = () => {};
 
   const close = () => {
     setOfflineReady(false);

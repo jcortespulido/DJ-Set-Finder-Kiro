@@ -135,9 +135,11 @@ export interface AuthContextValue {
   isAdmin: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
+  loginWithGoogle: () => Promise<void>;
   register: (email: string, password: string, name: string) => Promise<void>;
   logout: () => void;
   refreshToken: () => Promise<void>;
+  refreshUser: () => Promise<void>;
 }
 
 /**

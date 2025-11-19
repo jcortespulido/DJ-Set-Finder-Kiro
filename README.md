@@ -1,17 +1,24 @@
-# Set Finder
+# Set Finder 🎧
 
-Una Progressive Web App (PWA) para explorar, analizar y descubrir tracklists de sets de DJ.
+Una Progressive Web App (PWA) para explorar, analizar y descubrir tracklists de sets de DJ con extracción automática usando IA.
 
 ## 🚀 Estado del Proyecto
 
-✅ **Tarea 1: Configurar proyecto y estructura base - COMPLETADA**
+**✅ FUNCIONAL Y DESPLEGADO** en Firebase Hosting
 
-### Subtareas Completadas:
+### Funcionalidades Core Implementadas:
 
-- ✅ 1.1 Inicializar proyecto React con Vite y TypeScript
-- ✅ 1.2 Configurar Firebase proyecto
-- ✅ 1.3 Configurar PWA con Vite
-- ✅ 1.4 Crear tipos TypeScript base
+- ✅ Autenticación con Google OAuth
+- ✅ Extracción automática de tracklists con Gemini AI
+- ✅ Integración con YouTube oEmbed API
+- ✅ Búsqueda automática en 1001Tracklists
+- ✅ Sistema de favoritos por usuario
+- ✅ Filtros avanzados (artista, evento, género, BPM)
+- ✅ UI responsive con diseño neón
+- ✅ Integración con Spotify OAuth (búsqueda de tracks)
+- ⚠️ Spotify Audio Features pendiente de Extended Quota Mode
+
+📊 **Ver estado detallado:** [docs/ESTADO_ACTUAL.md](./docs/ESTADO_ACTUAL.md)
 
 ## 📁 Estructura del Proyecto
 
@@ -53,45 +60,72 @@ set-finder/
 - **Routing**: React Router DOM
 - **Offline**: IndexedDB (idb)
 
-## 📋 Próximos Pasos
-
-### Antes de comenzar el desarrollo:
+## 🚀 Quick Start
 
 1. **Instalar dependencias**:
    ```bash
    npm install
    ```
 
-2. **Configurar Firebase**:
-   - Seguir las instrucciones en `FIREBASE_SETUP.md`
-   - Crear proyecto en Firebase Console
-   - Copiar `.env.example` a `.env` y completar con tus credenciales
+2. **Configurar variables de entorno**:
+   ```bash
+   cp .env.example .env
+   # Editar .env con tus credenciales de Firebase, Gemini y Spotify
+   ```
 
-3. **Generar iconos PWA**:
-   - Seguir las instrucciones en `PWA_ICONS_GUIDE.md`
-   - Generar iconos PNG desde el SVG base
-
-4. **Iniciar servidor de desarrollo**:
+3. **Iniciar servidor de desarrollo**:
    ```bash
    npm run dev
    ```
 
-### Siguiente tarea de implementación:
+4. **Desplegar a Firebase**:
+   ```bash
+   npm run build
+   firebase deploy
+   ```
 
-**Tarea 2: Implementar sistema de autenticación**
-- 2.1 Crear AuthContext y AuthProvider
-- 2.2 Crear componente AuthModal
-- 2.3 Crear servicio de Firestore para usuarios
-- 2.4 Escribir tests para autenticación (opcional)
+## 📋 Roadmap
+
+### 🔥 Prioridad Alta
+- [ ] Solicitar Extended Quota Mode a Spotify para Audio Features
+- [ ] Implementar scraping de 1001Tracklists/Set79 como backup
+- [ ] Arreglar icono PWA 144x144
+
+### 📊 Prioridad Media
+- [ ] Mejorar prompts de IA para mejor extracción de BPM/Key
+- [ ] Edición manual de tracks (BPM, Key)
+- [ ] Mejoras en búsqueda y filtros avanzados
+
+### 💡 Prioridad Baja
+- [ ] Dashboard con estadísticas
+- [ ] Compartir sets públicamente
+- [ ] Crear playlists en Spotify desde sets
+- [ ] Optimizaciones de performance
+
+**Ver roadmap completo:** [docs/ESTADO_ACTUAL.md](./docs/ESTADO_ACTUAL.md)
 
 ## 📚 Documentación
 
-- `FIREBASE_SETUP.md` - Guía completa de configuración de Firebase
-- `PWA_ICONS_GUIDE.md` - Guía para generar iconos PWA
-- `.kiro/specs/set-finder-app/` - Especificaciones completas del proyecto
-  - `requirements.md` - Requisitos funcionales
-  - `design.md` - Documento de diseño
-  - `tasks.md` - Plan de implementación
+### Estado y Progreso
+- [Estado Actual y Roadmap](./docs/ESTADO_ACTUAL.md) - Resumen completo del proyecto
+- [Progreso Actual](./docs/PROGRESO_ACTUAL.md) - Historial de desarrollo
+
+### Setup y Configuración
+- [Getting Started](./docs/GETTING_STARTED.md) - Guía de inicio rápido
+- [Firebase Setup](./docs/FIREBASE_SETUP.md) - Configuración de Firebase
+- [Google Auth Setup](./docs/GOOGLE_AUTH_SETUP.md) - Configuración de autenticación
+- [Spotify OAuth Setup](./docs/SPOTIFY_OAUTH_SETUP.md) - Configuración de Spotify
+- [PWA Icons Guide](./docs/PWA_ICONS_GUIDE.md) - Generar iconos PWA
+
+### Implementaciones Técnicas
+- [Implementación Spotify](./docs/IMPLEMENTACION_SPOTIFY.md) - Detalles de integración Spotify
+- [Solución BPM/Key](./docs/SOLUCION_BPM_KEY.md) - Estrategia para obtener BPM y Key
+- [Mejoras BPM YouTube](./docs/MEJORAS_BPM_YOUTUBE.md) - Optimizaciones de extracción
+
+### Especificaciones
+- [Requirements](./kiro/specs/set-finder-app/requirements.md) - Requisitos funcionales
+- [Design](./kiro/specs/set-finder-app/design.md) - Documento de diseño
+- [Tasks](./kiro/specs/set-finder-app/tasks.md) - Plan de implementación
 
 ## 🎨 Tema Visual
 
@@ -123,11 +157,27 @@ npm run lint     # Ejecutar ESLint
 - Firebase Security Rules ya están definidas
 - Todos los tipos TypeScript base están creados
 
-## 🚦 Estado de Tareas
+## 🔧 Tecnologías Clave
 
-Ver el archivo `.kiro/specs/set-finder-app/tasks.md` para el plan completo de implementación.
+- **Frontend**: React 18 + TypeScript + Vite + Tailwind CSS
+- **Backend**: Firebase (Firestore, Auth, Hosting)
+- **IA**: Google Gemini 2.0 Flash (gemini-2.0-flash-exp)
+- **APIs**: Spotify Web API, YouTube oEmbed API
+- **PWA**: Vite PWA Plugin + Workbox
 
-**Progreso actual**: 1/14 tareas principales completadas (7%)
+## 🤝 Contribuir
+
+Este proyecto está en desarrollo activo. Para contribuir:
+
+1. Fork el repositorio
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📝 Licencia
+
+Este proyecto es de código abierto y está disponible bajo la licencia MIT.
 
 ---
 

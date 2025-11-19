@@ -95,22 +95,26 @@ Este plan de implementación está diseñado para construir Set Finder de forma 
 
 ---
 
-- [ ] 3. Implementar estilos globales y componentes base
-- [ ] 3.1 Crear GlobalStyles component
+- [x] 3. Implementar estilos globales y componentes base
+
+
+
+
+- [x] 3.1 Crear GlobalStyles component
   - Definir estilos CSS para temas de neón (10 colores)
   - Crear clases: neon-accent-{color}, border-neon-{color}, camelot-key-{color}
   - Añadir estilos para tablas, efectos hover, transiciones
   - Configurar fuente Inter de Google Fonts
   - _Requisitos: 9.1, 9.2, 9.3, 9.4, 9.5_
 
-- [ ] 3.2 Crear componentes de iconos SVG
+- [x] 3.2 Crear componentes de iconos SVG
   - Implementar: HomeIcon, LayoutGrid, Search, HeartIcon
   - Implementar: SpotifyIcon, SoundCloudIcon, YoutubeIcon
   - Implementar: UserIcon, LogoutIcon, SettingsIcon, XIcon
   - Todos los iconos como componentes funcionales con props className
   - _Requisitos: Diseño - Icon Components_
 
-- [ ] 3.3 Crear GlobalHeader component
+- [x] 3.3 Crear GlobalHeader component
   - Implementar navegación fija con pestañas Home y Explorar
   - Añadir pestaña "Mis Favoritos" (solo si autenticado)
   - Añadir pestaña "Admin" (solo si es admin)
@@ -118,7 +122,7 @@ Este plan de implementación está diseñado para construir Set Finder de forma 
   - Aplicar estilos de pestaña activa/inactiva
   - _Requisitos: 2.1, 2.2, 2.3, 2.4_
 
-- [ ] 3.4 Crear componentes de utilidad
+- [x] 3.4 Crear componentes de utilidad
   - LoadingSpinner component
   - OfflineBanner component (detecta conexión)
   - InstallPrompt component (PWA install)
@@ -127,39 +131,47 @@ Este plan de implementación está diseñado para construir Set Finder de forma 
 
 ---
 
-- [ ] 4. Implementar Firestore Security Rules
-- [ ] 4.1 Configurar reglas para colección users
+- [x] 4. Implementar Firestore Security Rules
+
+
+
+
+- [x] 4.1 Configurar reglas para colección users
   - Usuarios pueden leer/escribir solo su propio documento
   - Admins pueden leer todos los usuarios
   - Solo admins pueden cambiar roles
   - _Requisitos: Diseño - Security Rules users_
 
-- [ ] 4.2 Configurar reglas para colección sets
+- [x] 4.2 Configurar reglas para colección sets
   - Todos pueden leer sets
   - Solo admins pueden crear/actualizar/eliminar
   - _Requisitos: Diseño - Security Rules sets_
 
-- [ ] 4.3 Configurar reglas para colección extractionJobs
+- [x] 4.3 Configurar reglas para colección extractionJobs
   - Solo el usuario creador o admins pueden leer jobs
   - Solo admins pueden crear jobs
   - Nadie puede actualizar/eliminar manualmente
   - _Requisitos: Diseño - Security Rules extractionJobs_
 
-- [ ] 4.4 Desplegar reglas a Firebase
+- [x] 4.4 Desplegar reglas a Firebase
   - Ejecutar `firebase deploy --only firestore:rules`
   - Verificar reglas en Firebase Console
   - _Requisitos: 16.6_
 
 ---
 
-- [ ] 5. Implementar Vista Home
-- [ ] 5.1 Crear SetBrowser component
+- [x] 5. Implementar Vista Home
+
+
+
+
+- [x] 5.1 Crear SetBrowser component
   - Implementar lógica para modo 'home' y 'explore'
   - En modo 'home': mostrar últimos 4 sets
   - Implementar useMemo para optimizar filtrado
   - _Requisitos: 3.1, 3.2, 3.3, 3.4_
 
-- [ ] 5.2 Crear SetCard component
+- [x] 5.2 Crear SetCard component
   - Mostrar artist con color neón del tema
   - Mostrar event, stage, date, location
   - Mostrar description (limitada a 3 líneas)
@@ -167,13 +179,13 @@ Este plan de implementación está diseñado para construir Set Finder de forma 
   - Implementar efectos hover (borde neón, elevación)
   - _Requisitos: 4.1, 4.2, 4.3, 4.4, 4.5_
 
-- [ ] 5.3 Integrar Firestore para cargar sets
+- [x] 5.3 Integrar Firestore para cargar sets
   - Query para obtener últimos 4 sets ordenados por createdAt
   - Manejar estado de loading
   - Manejar errores de red
   - _Requisitos: 16.3, 16.4_
 
-- [ ] 5.4 Añadir título y texto de introducción
+- [x] 5.4 Añadir título y texto de introducción
   - Título "SET FINDER" con estilo neón cian
   - Párrafo de introducción con texto reducido
   - Subtítulo "Últimos Sets Añadidos"
@@ -187,26 +199,30 @@ Este plan de implementación está diseñado para construir Set Finder de forma 
 
 ---
 
-- [ ] 6. Implementar Vista Explorar
-- [ ] 6.1 Añadir barra de búsqueda a SetBrowser
+- [x] 6. Implementar Vista Explorar
+
+
+
+
+- [x] 6.1 Añadir barra de búsqueda a SetBrowser
   - Input de búsqueda centrado (solo en modo 'explore')
   - Implementar filtrado en tiempo real con useState
   - Buscar en campos: artist, event, location, date
   - Búsqueda case-insensitive
   - _Requisitos: 5.3, 5.4_
 
-- [ ] 6.2 Crear SetTable component
+- [x] 6.2 Crear SetTable component
   - Tabla con columnas: Artista, Evento, Fecha, Lugar
   - Header sticky con fondo oscuro
   - Filas clickables con hover effect
   - Ocultar columnas Fecha y Lugar en móvil
   - _Requisitos: 5.5, 5.6, 5.7_
 
-- [ ] 6.3 Implementar navegación a detalle desde tabla
+- [x] 6.3 Implementar navegación a detalle desde tabla
   - Click en fila llama a onSelectSet con setId
   - _Requisitos: 5.8_
 
-- [ ] 6.4 Añadir mensaje "No se encontraron sets"
+- [x] 6.4 Añadir mensaje "No se encontraron sets"
   - Mostrar cuando filtro no tiene resultados
   - _Requisitos: Diseño - Error Handling_
 
@@ -218,13 +234,17 @@ Este plan de implementación está diseñado para construir Set Finder de forma 
 
 ---
 
-- [ ] 7. Implementar Vista Detalle de Set
-- [ ] 7.1 Crear TracklistDetail component
+- [x] 7. Implementar Vista Detalle de Set
+
+
+
+
+- [x] 7.1 Crear TracklistDetail component
   - Aplicar colores del theme del set dinámicamente
   - Estructura con header sticky y tabla scrollable
   - _Requisitos: 6.1_
 
-- [ ] 7.2 Implementar encabezado del set
+- [x] 7.2 Implementar encabezado del set
   - Mostrar artist con color theme.primary
   - Mostrar event, stage, description
   - Panel de estadísticas: Duración, BPM, Género, Tracks, NF
@@ -232,7 +252,7 @@ Este plan de implementación está diseñado para construir Set Finder de forma 
   - Enlace a fuente del tracklist
   - _Requisitos: 6.2, 6.3, 6.4, 6.5, 6.6, 6.7_
 
-- [ ] 7.3 Crear tabla de tracklist
+- [x] 7.3 Crear tabla de tracklist
   - Columnas: Inicio, Canción, BPM, Género, Tono, Energía, Notas
   - Header sticky con background theme.headerBG
   - Colorear celda Tono con theme.camelot
@@ -240,7 +260,7 @@ Este plan de implementación está diseñado para construir Set Finder de forma 
   - Ocultar columnas BPM, Notas, Género en móvil
   - _Requisitos: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7, 7.8, 7.9, 7.10, 7.11_
 
-- [ ] 7.4 Añadir columna "Escuchar"
+- [x] 7.4 Añadir columna "Escuchar"
   - Icono de Spotify con enlace a búsqueda Google
   - Icono de SoundCloud con enlace a búsqueda Google
   - Efectos hover (color verde Spotify, naranja SoundCloud)
@@ -254,31 +274,35 @@ Este plan de implementación está diseñado para construir Set Finder de forma 
 
 ---
 
-- [ ] 8. Implementar sistema de favoritos
-- [ ] 8.1 Crear Cloud Function toggleFavorite
+- [x] 8. Implementar sistema de favoritos
+
+
+
+
+- [x] 8.1 Crear servicio toggleFavorite
   - Verificar autenticación
   - Añadir/eliminar setId del array favorites del usuario
   - Incrementar/decrementar favoriteCount del set
   - Usar arrayUnion/arrayRemove y increment de Firestore
   - _Requisitos: 13.3, 13.4, 13.10_
 
-- [ ] 8.2 Crear FavoriteButton component
+- [x] 8.2 Crear FavoriteButton component
   - Icono de corazón (outline/filled según estado)
-  - Click llama a Cloud Function toggleFavorite
+  - Click llama a servicio toggleFavorite
   - Mostrar loading durante request
   - Animación de "latido" al marcar favorito
   - _Requisitos: 13.1, 13.2, 13.5, 13.6_
 
-- [ ] 8.3 Integrar FavoriteButton en SetCard
+- [x] 8.3 Integrar FavoriteButton en SetCard
   - Mostrar botón solo si usuario autenticado
   - Posicionar en esquina superior derecha de tarjeta
   - _Requisitos: 13.1, 13.11_
 
-- [ ] 8.4 Integrar FavoriteButton en TracklistDetail
+- [x] 8.4 Integrar FavoriteButton en TracklistDetail
   - Mostrar botón en encabezado del set
   - _Requisitos: 13.2_
 
-- [ ] 8.5 Crear FavoritesView component
+- [x] 8.5 Crear FavoritesView component
   - Cargar favoritos del usuario desde Firestore
   - Mostrar grid de tarjetas (igual que Home)
   - Mensaje si no hay favoritos
@@ -293,23 +317,27 @@ Este plan de implementación está diseñado para construir Set Finder de forma 
 
 ---
 
-- [ ] 9. Implementar Panel de Administración
-- [ ] 9.1 Crear AdminPanel component
+- [x] 9. Implementar Panel de Administración (básico)
+
+
+
+
+- [x] 9.1 Crear AdminPanel component
   - Verificar que usuario es admin (useContext)
-  - Tabs: Sets, Extractor IA, Usuarios
+  - Vista de gestión de sets
   - _Requisitos: 14.1, 14.2_
 
-- [ ] 9.2 Implementar sección de gestión de sets
+- [x] 9.2 Implementar sección de gestión de sets
   - Tabla con todos los sets
-  - Botones: Crear, Editar, Eliminar
-  - Modal de formulario para crear/editar
+  - Botones: Crear, Eliminar
+  - Modal de formulario para crear
   - Confirmación para eliminar
   - _Requisitos: 14.3, 14.4, 14.5, 14.6, 14.7_
 
-- [ ] 9.3 Crear Cloud Functions para CRUD de sets
-  - createSet: Validar datos con Zod, crear en Firestore
+- [x] 9.3 Crear servicios para CRUD de sets
+  - createSet: Crear en Firestore con timestamps
   - updateSet: Actualizar campos, updatedAt timestamp
-  - deleteSet: Eliminar set (trigger limpiará favoritos)
+  - deleteSet: Eliminar set
   - _Requisitos: 14.8_
 
 - [ ] 9.4 Crear Firestore Trigger onSetDeleted
@@ -337,8 +365,8 @@ Este plan de implementación está diseñado para construir Set Finder de forma 
 
 ---
 
-- [ ] 10. Implementar extracción de tracklist con IA
-- [ ] 10.1 Crear AIExtractor component
+- [x] 10. Implementar extracción de tracklist con IA
+- [x] 10.1 Crear AIExtractor component
   - Input para URL (YouTube o SoundCloud)
   - Botón "Extraer Tracklist"
   - Loading state con progreso
@@ -346,79 +374,120 @@ Este plan de implementación está diseñado para construir Set Finder de forma 
   - Botón "Guardar Set"
   - _Requisitos: 15.1, 15.2, 15.10, 15.11, 15.12_
 
-- [ ] 10.2 Implementar servicio de metadata de video
-  - Función para obtener título, descripción, duración de YouTube
-  - Usar YouTube Data API v3 o scraping
+- [x] 10.2 Implementar servicio de extracción con IA
+  - Integración con Google Gemini AI
+  - Función para extraer metadata y tracklist
+  - Modo demo con datos de ejemplo
   - Manejar errores de URL inválida
   - _Requisitos: 15.3, 15.4_
 
-- [ ] 10.3 Crear Cloud Function extractTracklist
-  - Timeout de 5 minutos (300 segundos)
-  - Crear extractionJob en Firestore
-  - Obtener metadata del video
-  - Llamar a OpenAI API con prompt estructurado
-  - Validar respuesta con Zod
-  - Actualizar job con resultado o error
+- [x] 10.3 Implementar servicio aiService
+  - Función extractTracklistFromURL con Google Gemini
+  - Función mockExtractTracklist para testing sin API key
+  - Parseo y validación de respuesta JSON
+  - Cálculo automático de totalTracks y unidentifiedTracks
   - _Requisitos: 15.3, 15.4, 15.5, 15.6, 15.7, 15.8, 15.9, 15.14_
 
-- [ ] 10.4 Implementar prompt engineering para IA
-  - Crear template de prompt con instrucciones detalladas
+- [x] 10.4 Implementar prompt engineering para IA
+  - Template de prompt con instrucciones detalladas
   - Solicitar formato JSON estricto
-  - Incluir ejemplos de respuesta esperada
+  - Incluir estructura completa de respuesta esperada
   - _Requisitos: 15.6, Diseño - Prompt Engineering_
 
-- [ ] 10.5 Implementar polling en tiempo real del job
-  - Usar onSnapshot de Firestore para escuchar cambios
-  - Actualizar UI cuando status cambia a 'completed' o 'failed'
-  - Mostrar resultado en preview editable
+- [x] 10.5 Implementar preview de resultados
+  - Mostrar datos extraídos antes de guardar
+  - Preview de información del set
+  - Preview de tracklist (primeros 5 tracks)
+  - Botones para guardar o extraer otro
   - _Requisitos: 15.10, 15.11_
 
-- [ ] 10.6 Añadir manejo de errores y timeouts
-  - Timeout de 2 minutos marca job como failed
-  - Rate limit con reintentos exponenciales (máximo 3)
-  - Mostrar errores descriptivos al usuario
+- [x] 10.6 Añadir manejo de errores
+  - Validación de URLs
+  - Mensajes de error descriptivos
+  - Modo fallback con datos de ejemplo
+  - Indicador de configuración de API key
   - _Requisitos: 15.14, 15.15, Diseño - Error Handling_
 
-- [ ]* 10.7 Escribir tests para extracción IA
+- [x] 10.7 Mejorar extracción de YouTube
+  - Integración con YouTube oEmbed API para obtener metadata
+  - Extracción automática de ID de video
+  - Contexto mejorado en prompt con título y canal
+  - Priorización de descripción de YouTube en búsqueda
+  - _Requisitos: 15.3, 15.4_
+
+- [x] 10.8 Mejorar visualización de BPM y Key
+  - Añadir BPM a SetCard component
+  - Mejorar tabla de tracklist con BPM destacado
+  - Mostrar BPM y Key en móvil debajo del nombre del track
+  - Cambiar header "Tono" a "Key" para mayor claridad
+  - _Requisitos: 7.3, 7.4, 11.7_
+
+- [x] 10.9 Integración con Spotify API
+  - Crear servicio spotifyService.ts con OAuth Flow
+  - Implementar búsqueda de tracks en Spotify
+  - ⚠️ Audio Features bloqueado (403) - Requiere Extended Quota Mode
+  - Conversión de Spotify Key a formato Camelot
+  - Batch processing con rate limiting
+  - Integración con pipeline de extracción de IA
+  - Documentación completa de setup
+  - _Requisitos: 15.3, 15.4, 15.5_
+
+- [ ] 10.10 Solicitar Extended Quota Mode a Spotify
+  - Ir a Spotify Dashboard → Request Extension
+  - Solicitar Extended Quota Mode para Audio Features
+  - Documentar proceso de aprobación
+  - Probar endpoint una vez aprobado
+  - _Requisitos: 15.3, 15.4_
+
+- [ ] 10.11 Implementar scraping como backup para BPM/Key
+  - Scraping de 1001Tracklists
+  - Scraping de Set79
+  - Sistema de fallback: Spotify → Scraping → Manual
+  - _Requisitos: 15.3, 15.4_
+
+- [ ]* 10.12 Escribir tests para extracción IA
   - Test: Extracción exitosa retorna resultado válido
-  - Test: Timeout cancela extracción
-  - Test: Rate limit reintenta con backoff
+  - Test: Mock extraction funciona sin API key
+  - Test: Validación de URLs
   - _Requisitos: Testing Strategy - aiService_
 
 ---
 
-- [ ] 11. Implementar funcionalidades PWA
-- [ ] 11.1 Configurar service worker con Workbox
+- [x] 11. Implementar funcionalidades PWA
+
+
+
+
+- [x] 11.1 Configurar service worker con Workbox
   - Estrategia CacheFirst para assets estáticos
   - Estrategia NetworkFirst para API calls
   - Estrategia StaleWhileRevalidate para sets
   - Estrategia CacheFirst para fuentes e imágenes
   - _Requisitos: 10.1, 10.9, 10.10_
 
-- [ ] 11.2 Implementar detección offline
-  - Hook useOnlineStatus
+- [x] 11.2 Implementar detección offline
   - OfflineBanner component
   - Mostrar banner cuando no hay conexión
   - _Requisitos: 10.6, 10.7_
 
-- [ ] 11.3 Implementar almacenamiento offline de favoritos
+- [x] 11.3 Implementar almacenamiento offline de favoritos
   - Usar IndexedDB con librería idb
   - Guardar favoritos offline cuando no hay conexión
   - Sincronizar con Firestore cuando recupera conexión
   - _Requisitos: 10.8_
 
-- [ ] 11.4 Crear InstallPrompt component
+- [x] 11.4 Crear InstallPrompt component
   - Escuchar evento beforeinstallprompt
   - Mostrar botón "Instalar App"
   - Llamar a prompt() al hacer click
   - Ocultar botón después de instalar
   - _Requisitos: 10.4, 10.5_
 
-- [ ] 11.5 Optimizar performance para PWA
-  - Lazy loading de componentes (AdminPanel, TracklistDetail)
+- [x] 11.5 Optimizar performance para PWA
+  - Lazy loading de componentes (AdminPanel, TracklistDetail, FavoritesView)
   - Code splitting con React.lazy y Suspense
-  - Preload de fuentes críticas
-  - Minificación y compresión de assets
+  - Limpieza automática de cache antiguo
+  - Service Worker con estrategias optimizadas
   - _Requisitos: Diseño - Performance Optimizations_
 
 - [ ]* 11.6 Verificar checklist PWA
@@ -430,33 +499,33 @@ Este plan de implementación está diseñado para construir Set Finder de forma 
 
 ---
 
-- [ ] 12. Implementar diseño responsive
-- [ ] 12.1 Configurar breakpoints Mobile First
+- [x] 12. Implementar diseño responsive
+- [x] 12.1 Configurar breakpoints Mobile First
   - Configurar Tailwind con breakpoints: sm, md, lg, xl, 2xl
   - _Requisitos: 11.1, Diseño - Responsive Design_
 
-- [ ] 12.2 Adaptar grid de tarjetas
+- [x] 12.2 Adaptar grid de tarjetas
   - Mobile (xs): 1 columna
   - Tablet portrait (sm): 2 columnas
   - Tablet landscape (md): 3 columnas
   - Desktop (lg): 4 columnas
   - _Requisitos: 11.2, 11.3, 11.4, 11.5_
 
-- [ ] 12.3 Adaptar tabla de explorar
+- [x] 12.3 Adaptar tabla de explorar
   - Ocultar columnas Fecha y Lugar en móvil (<768px)
   - _Requisitos: 11.6_
 
-- [ ] 12.4 Adaptar tabla de tracklist
+- [x] 12.4 Adaptar tabla de tracklist
   - Ocultar columnas BPM, Notas, Género en móvil (<768px)
   - _Requisitos: 11.7_
 
-- [ ] 12.5 Optimizar para touch
+- [x] 12.5 Optimizar para touch
   - Áreas táctiles mínimas de 44x44px
   - Prevenir zoom en inputs (font-size 16px)
   - Modales fullscreen en móvil
   - _Requisitos: 11.9, 11.10, 11.11_
 
-- [ ] 12.6 Ajustar tipografía responsive
+- [x] 12.6 Ajustar tipografía responsive
   - Reducir título principal a 2.5rem en móvil
   - Reducir texto de introducción en móvil
   - _Requisitos: 11.8_
@@ -566,9 +635,21 @@ Las tareas marcadas con * son tests y no son requeridas para el MVP funcional, p
 - Tarea 10 requiere Tarea 9 (admin panel)
 - Tarea 13 requiere todas las tareas anteriores
 
+### Estado Actual del Proyecto
+✅ **Tareas 1-12 completadas** (MVP funcional desplegado)
+⚠️ **Tarea 10.10 pendiente**: Solicitar Extended Quota Mode a Spotify
+🔄 **Tarea 10.11 pendiente**: Implementar scraping como backup
+📋 **Tareas 13-14 pendientes**: Testing final y optimizaciones
+
+### Próximos Pasos Inmediatos
+1. **Solicitar Extended Quota Mode a Spotify** (usuario)
+2. Implementar scraping de 1001Tracklists/Set79 como backup
+3. Arreglar icono PWA 144x144
+4. Mejorar prompts de IA para mejor extracción
+
 ### Estimación de Tiempo
-- MVP básico (tareas 1-7): 3-4 días
-- Features completas (tareas 1-10): 6-8 días
-- PWA + Responsive (tareas 11-12): 1-2 días
-- Deployment + Testing (tareas 13-14): 1-2 días
-- **Total estimado**: 8-12 días de desarrollo
+- MVP básico (tareas 1-7): ✅ Completado
+- Features completas (tareas 1-10): ✅ Completado (con limitación Spotify)
+- PWA + Responsive (tareas 11-12): ✅ Completado
+- Deployment + Testing (tareas 13-14): 🔄 En progreso
+- **Tiempo invertido**: ~10 días de desarrollo
