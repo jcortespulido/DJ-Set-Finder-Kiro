@@ -59,21 +59,24 @@ Set Finder es una PWA para descubrir, guardar y explorar sets de DJ con extracci
 
 ### 1. Spotify Audio Features (CRÍTICO)
 **Problema:** Endpoint `/audio-features` retorna 403 Forbidden
-**Causa:** App en Development Mode con cuota limitada
+**Causa:** App en Development Mode - Audio Features tiene acceso restringido
 **Impacto:** No se obtienen BPM y Key desde Spotify
-**Solución:** Solicitar Extended Quota Mode a Spotify
+**Solución:** Solicitar Extended Quota Mode a Spotify (ver `SPOTIFY_EXTENDED_QUOTA.md`)
+**Estado:** Documentado y diagnosticado correctamente
 
-### 2. Icono PWA 144x144
-**Problema:** Error al cargar icono desde manifest
-**Causa:** Archivo faltante o inválido
-**Impacto:** Warning en consola, no afecta funcionalidad
-**Solución:** Verificar/regenerar icono
-
-### 3. Extracción de BPM/Key por IA
+### 2. Extracción de BPM/Key por IA
 **Problema:** IA no siempre extrae BPM y Key correctamente
 **Causa:** Datos no disponibles en fuentes públicas
 **Impacto:** Muchos tracks sin BPM/Key
 **Solución:** Depende de Extended Quota de Spotify o scraping
+**Estado:** Pendiente de implementar scraping como backup
+
+### 3. Iconos PWA ✅ RESUELTO
+**Problema:** Error al cargar icono 144x144 desde manifest
+**Causa:** Archivos PNG faltantes
+**Impacto:** Warning en consola
+**Solución:** ✅ Generados todos los iconos (72-512px) con script automatizado
+**Estado:** Resuelto - Pendiente de deploy
 
 ---
 

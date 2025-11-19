@@ -38,7 +38,21 @@ export function SetTable({ sets, onSelectSet }: SetTableProps) {
                   {set.artist}
                 </span>
               </td>
-              <td className="table-cell text-gray-300">{set.event}</td>
+              <td className="table-cell">
+                <div>
+                  <p className="text-gray-300 font-medium">{set.event}</p>
+                  {/* Mostrar fecha y lugar en móvil debajo del evento */}
+                  <div className="flex items-center gap-2 mt-1 text-xs text-gray-500 md:hidden">
+                    <span>{set.date}</span>
+                    {set.location && (
+                      <>
+                        <span>•</span>
+                        <span>{set.location}</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </td>
               <td className="table-cell text-gray-400 hidden md:table-cell">
                 {set.date}
               </td>

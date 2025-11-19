@@ -185,8 +185,35 @@ export function TracklistDetail({ set, onBack, onFavoriteToggle }: TracklistDeta
                   </td>
                   <td className="table-cell">
                     <div>
-                      <p className="font-semibold text-white text-sm sm:text-base">{track.title}</p>
-                      <p className="text-xs sm:text-sm text-gray-400">{track.artist}</p>
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-white text-sm sm:text-base">{track.title}</p>
+                          <p className="text-xs sm:text-sm text-gray-400">{track.artist}</p>
+                        </div>
+                        {/* Links de Escuchar en móvil */}
+                        <div className="flex items-center gap-2 sm:hidden flex-shrink-0">
+                          <a
+                            href={getSpotifySearchUrl(track)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-400 hover:text-green-400 transition-colors p-1"
+                            title="Buscar en Spotify"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <SpotifyIcon className="w-5 h-5" />
+                          </a>
+                          <a
+                            href={getSoundCloudSearchUrl(track)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-400 hover:text-orange-400 transition-colors p-1"
+                            title="Buscar en SoundCloud"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <SoundCloudIcon className="w-5 h-5" />
+                          </a>
+                        </div>
+                      </div>
                       {/* Mostrar BPM y Key en móvil debajo del nombre */}
                       <div className="flex items-center gap-2 mt-1 sm:hidden">
                         {track.bpm && (
